@@ -1,18 +1,21 @@
-# DrawSomething
+# Daily Threads
 
 # Moe Judeh - mjude4@uic.edu
 
-# https://github.com/moejudeh/CS484FinalProject
+# Repository Link
+https://github.com/moejudeh/CS484FinalProject
+
+# Live Website
+link goes here
 
 ## What does your application do?
-a pictionary game that would be played like Kahoot in which a person would hold a lobby preferably on a computer or projector and others can join on their own devices. It then chooses a random person and they play Pictionary from either set categories or a group of custom categories set by the host. There will also be a homepage like Kahoot were people can upload their games and categories for other people to use and play with. The person drawing would do so on their device and it would show up on the main screen for everyone else to look at and guess using their own devices. It can be used for either helping students understand material better or just to have a fun time.
+It allows users to upload their articles of clothing and be able to select their outfit of the day. This outfit would then be shown to their friends that they have added and can react to one another outfits. This application would also have a calendar to show last time a piece of clothing/outfit was worn. It would also tell the user that they have not worn an outfit in a while.
 
 ## What makes it different than a CRUD app? I.e., what functionality does it provide that is not just a user interface layer on top of a database of user information,and the ability to view / add to / change that information?
-it allows people to connect to lobbies and be able to play in groups. It also allows other to look at their game information rather than it just being per user.
+It would allow people to make their own categories and allow people to add one another and see each other outfits.
 
 ## What security and privacy concerns do you expect you (as developers) or your users to have with this application?
-making sure people do not get into other's accounts. Also, people are not able to edit others' custom games.
-
+making sure people do not get into other's accounts. Also, making sure that people arent able to see what is in another persons closet.
 
 ### This repository
 
