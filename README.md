@@ -1,4 +1,4 @@
-# Daily Threads
+# OOTD (outfit of the day)
 
 # Moe Judeh - mjude4@uic.edu
 
