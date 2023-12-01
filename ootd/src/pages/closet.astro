@@ -1,0 +1,73 @@
+---
+import { app } from "../firebase/server";
+import { getAuth } from "firebase-admin/auth";
+import Layout from "../layouts/Layout.astro";
+import type { clothesItem, clothesType } from "../utils/types";
+
+const auth = getAuth(app);
+
+/* Check current session */
+if (!Astro.cookies.has("session")) {
+  return Astro.redirect("/signin");
+}
+const sessionCookie = Astro.cookies.get("session")!.value;
+const decodedCookie = await auth.verifySessionCookie(sessionCookie);
+const user = await auth.getUser(decodedCookie.uid);
+
+if (!user) {
+  return Astro.redirect("/signin");
+}
+
+// gets the users email
+const email = user.email?.toString();
+
+const baseUrl = new URL(Astro.request.url).origin;
+
+// // gets the users clothes items
+const dataRequest = await fetch(
+  baseUrl + `/api/photoManagement/getItems?email=${email}`
+);
+
+if (!dataRequest.ok) {
+  console.log("you made an oopies");
+  console.log(dataRequest.status);
+}
+
+const data = await dataRequest.json();
+---
+
+<Layout title="OOTD">
+  <h1>Clothes</h1>
+  <p>Welcome to {user.displayName} Closet</p>
+
+  <form action="/dashboard">
+    <button type="submit">Go Back</button>
+  </form>
+
+  {
+    data?.map((type: clothesType) => (
+      <div class="typeGroup">
+        <h2 class="typeTitle">{type.type.toUpperCase()}</h2>
+        {type.clothesItems.map((item: clothesItem) => (
+          <img src={item.photoLink} />
+        ))}
+      </div>
+    ))
+  }
+</Layout>
+
+<style>
+  .typeGroup {
+    margin-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin: 5px;
+  }
+</style>
