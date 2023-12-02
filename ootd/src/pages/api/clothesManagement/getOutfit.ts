@@ -6,8 +6,6 @@ export const GET: APIRoute = async ({ request }) => {
   const dateValue = request.headers.get("date-value");
   const [year, month, day] = dateValue!.split("-");
 
-  console.log(year, month, day);
-
   const url = new URL(request.url);
   const email = url.searchParams.get("email");
 
@@ -27,14 +25,14 @@ export const GET: APIRoute = async ({ request }) => {
       .get();
 
     if (!docRef.exists) {
-      return new Response("No Outfit", { status: 200 });
+      return new Response("No Outfit", { status: 500 });
     }
 
     const outfitData = docRef.data();
     if (outfitData === undefined) {
-      return new Response("No Outfit", { status: 200 });
+      return new Response("No Outfit", { status: 500 });
     }
-    // return new Response("YIPPIE", { status: 200 });
+
     return new Response(JSON.stringify(outfitData), { status: 200 });
   } catch (error) {
     console.log(error);

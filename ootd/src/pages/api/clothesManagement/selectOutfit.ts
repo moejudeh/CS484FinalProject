@@ -28,8 +28,6 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     todaysOutfit.push(item); // append item to the end of todaysOutfit
   }
 
-  console.log(todaysOutfit);
-
   // grabing date
   const date = new Date();
   const day = date.getDate();

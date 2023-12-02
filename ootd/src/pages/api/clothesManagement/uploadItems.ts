@@ -38,9 +38,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     const bucketRef = storageRef.bucket(
       import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET
     );
-    const fileRef = bucketRef.file(
-      `${email}/${type}/${Date.now()}${image.name}`
-    );
+    const fileLoc = `${email}/${type}/${Date.now()}${image.name}`;
+    const fileRef = bucketRef.file(fileLoc);
 
     // uploading the image to the storage
     const fileStream = fileRef.createWriteStream();
@@ -58,7 +57,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     const clothingItem: clothesItem = {
       type: typeString,
       photoLink: downloadUrl,
-      fileRef: `${email}/${type}/${Date.now()}${image.name}`,
+      fileRef: `${fileLoc}`,
     };
 
     // adding the item to the database

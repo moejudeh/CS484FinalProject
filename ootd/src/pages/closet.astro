@@ -2,7 +2,7 @@
 import { app } from "../firebase/server";
 import { getAuth } from "firebase-admin/auth";
 import Layout from "../layouts/Layout.astro";
-import type { clothesItem, clothesType } from "../utils/types";
+import App from "../closet/src/App";
 
 const auth = getAuth(app);
 
@@ -35,47 +35,9 @@ if (!dataRequest.ok) {
 const data = await dataRequest.json();
 ---
 
-<Layout title="OOTD">
-  <h1>Clothes</h1>
-  <p>Welcome to {user.displayName} Closet</p>
-
+<Layout title="Closet">
   <form action="/dashboard">
     <button type="submit">Go Back</button>
   </form>
-
-  <!-- <label for="filter">Filter:</label>
-  <select name="filter" id="filterClothes">
-    {
-      data?.map((type: clothesType) => (
-        <option value={type.type}>{type.type}</option>
-      ))
-    }
-  </select> -->
-
-  {
-    data?.map((type: clothesType) => (
-      <div class="typeGroup">
-        <h2 class="typeTitle">{type.type.toUpperCase()}</h2>
-        {type.clothesItems.map((item: clothesItem) => (
-          <img src={item.photoLink} />
-        ))}
-      </div>
-    ))
-  }
+  <App client:only="react" email={email ?? ""} />
 </Layout>
-
-<style>
-  .typeGroup {
-    margin-bottom: 20px;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px;
-  }
-
-  img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    margin: 5px;
-  }
-</style>
