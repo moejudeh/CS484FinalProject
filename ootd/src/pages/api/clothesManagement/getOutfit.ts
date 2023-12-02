@@ -4,7 +4,7 @@ import { getFirestore } from "firebase-admin/firestore";
 
 export const GET: APIRoute = async ({ request }) => {
   const dateValue = request.headers.get("date-value");
-  const [year, month, day] = dateValue!.split("-");
+  const [year, month, day] = dateValue?.split("-");
 
   const url = new URL(request.url);
   const email = url.searchParams.get("email");
