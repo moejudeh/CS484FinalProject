@@ -2,6 +2,7 @@
 import { app } from "../firebase/server";
 import { getAuth } from "firebase-admin/auth";
 import Layout from "../layouts/Layout.astro";
+import type { clothesItem } from "../utils/types";
 
 const auth = getAuth(app);
 
@@ -17,14 +18,42 @@ if (!user) {
   return Astro.redirect("/signin");
 }
 
+// gets the users email
 const email = user.email?.toString();
+
+// creating a form of todays date
+const todaysDate = {
+  year: new Date().getFullYear(),
+  month: new Date().getMonth() + 1,
+  day: new Date().getDate(),
+};
+
+// gets the users clothes items
+const baseUrl = new URL(Astro.request.url).origin;
+const dataRequest = await fetch(
+  baseUrl + `/api/clothesManagement/getOutfit?email=${email}`,
+  {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "date-Value": `${todaysDate.year}-${todaysDate.month}-${todaysDate.day}`,
+    },
+  }
+);
+
+if (!dataRequest.ok) {
+  console.log("you made an oopies");
+  console.log(dataRequest.status);
+}
+
+const data = await dataRequest.json();
+const outfit = data.outfit;
+console.log(outfit);
 ---
 
 <Layout title="OOTD">
   <h1>Welcome {user.displayName}</h1>
   <p>We are happy to see you here</p>
-
-  <p>{new Date(Date.now())}</p>
 
   <form action="/addToCloset">
     <button type="submit">Add to Closet</button>
@@ -34,7 +63,22 @@ const email = user.email?.toString();
     <button type="submit">Go to Closet</button>
   </form>
 
+  <form action="/selectTodaysOOTD">
+    <button type="submit">Todays Outfit</button>
+  </form>
+
   <form action="/api/auth/signout">
     <button type="submit">Sign out</button>
   </form>
+
+  <h1>TODAYS OUTFIT</h1>
+
+  {
+    outfit.map((item: clothesItem) => (
+      <div>
+        <h2>{item.type}</h2>
+        <img src={item.photoLink} alt={item.type} />
+      </div>
+    ))
+  }
 </Layout>

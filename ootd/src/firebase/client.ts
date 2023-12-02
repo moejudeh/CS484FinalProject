@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,

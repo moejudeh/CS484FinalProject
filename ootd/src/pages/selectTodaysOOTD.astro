@@ -1,0 +1,89 @@
+---
+import { app } from "../firebase/server";
+import { getAuth } from "firebase-admin/auth";
+import Layout from "../layouts/Layout.astro";
+import type { clothesItem, clothesType } from "../utils/types";
+
+const auth = getAuth(app);
+
+/* Check current session */
+if (!Astro.cookies.has("session")) {
+  return Astro.redirect("/signin");
+}
+const sessionCookie = Astro.cookies.get("session")!.value;
+const decodedCookie = await auth.verifySessionCookie(sessionCookie);
+const user = await auth.getUser(decodedCookie.uid);
+
+if (!user) {
+  return Astro.redirect("/signin");
+}
+
+// gets the users email
+const email = user.email?.toString();
+
+// gets the users clothes items
+const baseUrl = new URL(Astro.request.url).origin;
+const dataRequest = await fetch(
+  baseUrl + `/api/clothesManagement/getItems?email=${email}`
+);
+
+if (!dataRequest.ok) {
+  console.log("you made an oopies");
+  console.log(dataRequest.status);
+}
+
+const data = await dataRequest.json();
+---
+
+<Layout title="OOTD">
+  <h1>Select Todays outfit</h1>
+
+  <form action="/dashboard">
+    <button type="submit">Go Back</button>
+  </form>
+
+  <form
+    action=`/api/clothesManagement/selectOutfit?email=${email}`
+    method="post"
+  >
+    {
+      data?.map((type: clothesType) => (
+        <div class="typeGroup">
+          <h2 class="typeTitle">{type.type.toUpperCase()}</h2>
+          {type.clothesItems.map((item: clothesItem) => (
+            <label>
+              <input type="radio" name={type.type} value={item.photoLink} />
+              <img src={item.photoLink} />
+            </label>
+          ))}
+        </div>
+      ))
+    }
+    <button type="submit">select outfit</button>
+  </form>
+</Layout>
+
+<style>
+  .typeGroup {
+    margin-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"] + img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin: 5px;
+    cursor: pointer;
+  }
+
+  input[type="radio"]:checked + img {
+    border: 2px solid blue;
+  }
+</style>
