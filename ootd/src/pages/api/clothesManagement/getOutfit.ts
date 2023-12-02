@@ -4,6 +4,11 @@ import { getFirestore } from "firebase-admin/firestore";
 
 export const GET: APIRoute = async ({ request }) => {
   const dateValue = request.headers.get("date-value");
+
+  if (!dateValue) {
+    return new Response("Missing Date Value", { status: 500 });
+  }
+
   const [year, month, day] = dateValue?.split("-");
 
   const url = new URL(request.url);
