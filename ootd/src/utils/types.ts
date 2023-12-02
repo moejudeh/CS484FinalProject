@@ -1,5 +1,5 @@
 
-// specific Clotthes Item 
+// specific Clothes Item 
 export type clothesItem = {
     type: string;
     photoLink: string;

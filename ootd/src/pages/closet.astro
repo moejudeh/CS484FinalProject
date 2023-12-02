@@ -21,11 +21,10 @@ if (!user) {
 // gets the users email
 const email = user.email?.toString();
 
-const baseUrl = new URL(Astro.request.url).origin;
-
 // // gets the users clothes items
+const baseUrl = new URL(Astro.request.url).origin;
 const dataRequest = await fetch(
-  baseUrl + `/api/photoManagement/getItems?email=${email}`
+  baseUrl + `/api/clothesManagement/getItems?email=${email}`
 );
 
 if (!dataRequest.ok) {
@@ -43,6 +42,15 @@ const data = await dataRequest.json();
   <form action="/dashboard">
     <button type="submit">Go Back</button>
   </form>
+
+  <!-- <label for="filter">Filter:</label>
+  <select name="filter" id="filterClothes">
+    {
+      data?.map((type: clothesType) => (
+        <option value={type.type}>{type.type}</option>
+      ))
+    }
+  </select> -->
 
   {
     data?.map((type: clothesType) => (

@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
         // getting the file reference
         const storageRef = getStorage(app);
         const bucketRef = storageRef.bucket(import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET);
-        const fileRef = bucketRef.file(`${email}/${type}/test.png`);
+        const fileRef = bucketRef.file(`${email}/${type}/${Date.now()}${image.name}`);
 
         // uploading the image to the storage
         const fileStream = fileRef.createWriteStream();
@@ -52,6 +52,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
             action: 'read',
             expires: new Date('9999-12-31'), // Set to a far future date so it never expires
         });
+
         const clothingItem: clothesItem = {
             type: typeString,
             photoLink: downloadUrl,

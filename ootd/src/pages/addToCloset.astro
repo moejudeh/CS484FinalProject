@@ -1,4 +1,5 @@
 ---
+import type { clothesType } from "../utils/types";
 import { app } from "../firebase/server";
 import { getAuth } from "firebase-admin/auth";
 import Layout from "../layouts/Layout.astro";
@@ -18,6 +19,19 @@ if (!user) {
 }
 
 const email = user.email?.toString();
+
+// // gets the users clothes types
+const baseUrl = new URL(Astro.request.url).origin;
+const dataRequest = await fetch(
+  baseUrl + `/api/clothesManagement/getItems?email=${email}`
+);
+
+if (!dataRequest.ok) {
+  console.log("you made an oopies");
+  console.log(dataRequest.status);
+}
+
+const data = await dataRequest.json();
 ---
 
 <Layout title="OOTD">
@@ -25,11 +39,29 @@ const email = user.email?.toString();
 
   <form
     method="POST"
-    action={`api/photoManagement/uploadItems?email=${email}`}
+    action={`api/clothesManagement/uploadItems?email=${email}`}
     enctype="multipart/form-data"
   >
-    <input type="file" name="image" accept="image/*" />
-    <input type="text" name="type" />
+    <div>
+      <label for="image">Image:</label>
+      <input type="file" name="image" accept="image/*" />
+    </div>
+
+    <div>
+      <label for="type">Type:</label>
+      <select name="type">
+        {
+          data?.map((type: clothesType) => (
+            <option value={type.type}>{type.type}</option>
+          ))
+        }
+      </select>
+    </div>
+
     <button type="submit">Upload</button>
+  </form>
+
+  <form action="/dashboard">
+    <button type="submit">Go Back</button>
   </form>
 </Layout>

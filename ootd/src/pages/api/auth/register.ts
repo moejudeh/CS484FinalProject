@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getAuth } from "firebase-admin/auth";
 import { app } from "../../../firebase/server";
+import { getFirestore } from "firebase-admin/firestore";
 
 export const POST: APIRoute = async ({ request, redirect }) => {
   const auth = getAuth(app);
@@ -22,6 +23,18 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       email: email,
       password: password,
     });
+
+
+    // adding default clothes types when registering user
+    const clothesTypes = ["Tops", "Bottoms", "Shoes", "Accessories"];
+    const db = getFirestore(app);
+    const userRef = db.collection("users").doc(email);
+    const clothesRef = userRef.collection("clothes");
+    clothesTypes.forEach(async (type) => {
+      await clothesRef.doc(type).set({ items: [] });
+    });
+
+
   } catch (error) {
     console.log(error);
     return new Response(`Something went wrong`, {
