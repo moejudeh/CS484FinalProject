@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { app } from "../../../firebase/server";
 import { getFirestore } from "firebase-admin/firestore";
-import type { clothesItem, clothesType } from "../../../utils/types";
+import type { clothesItem, clothesType } from "../../../closet/src/utils/types";
 
 // TODO:
 // UPDATE LAST WORN DATE

@@ -1,4 +1,4 @@
-import type { clothesItem } from "../../../utils/types";
+import type { clothesItem } from "../../../closet/src/utils/types";
 import type { APIRoute } from "astro";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";

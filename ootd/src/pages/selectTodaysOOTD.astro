@@ -2,7 +2,7 @@
 import { app } from "../firebase/server";
 import { getAuth } from "firebase-admin/auth";
 import Layout from "../layouts/Layout.astro";
-import type { clothesItem, clothesType } from "../utils/types";
+import type { clothesItem, clothesType } from "../closet/src/utils/types";
 
 const auth = getAuth(app);
 
