@@ -1,5 +1,5 @@
 import { type SetStateAction, useEffect, useState } from "react";
-import type { clothesItem, clothesType } from "../../utils/types";
+import type { clothesItem, clothesType } from "../utils/types";
 
 function Landing(AppProps: { email: string }) {
   const [closet, setCloset] = useState<Array<clothesItem>>([]); // will hold all users clothesItems
