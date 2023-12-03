@@ -73,14 +73,4 @@ const outfit = data?.outfit;
   </form>
 
   <h1>TODAYS OUTFIT</h1>
-
-  {
-    outfit &&
-      outfit.map((item: clothesItem) => (
-        <div>
-          <h2>{item.type}</h2>
-          <img src={item.photoLink} alt={item.type} />
-        </div>
-      ))
-  }
 </Layout>
