@@ -20,6 +20,9 @@ export const GET: APIRoute = async ({ request }) => {
 
   try {
     const emptyOutfit: clothesItem[] = [];
+    const emptyResponse = {
+      outfit: emptyOutfit,
+    };
 
     const db = getFirestore(app);
     const docRef = await db
@@ -32,12 +35,12 @@ export const GET: APIRoute = async ({ request }) => {
       .get();
 
     if (!docRef.exists) {
-      return new Response(JSON.stringify(emptyOutfit), { status: 200 });
+      return new Response(JSON.stringify(emptyResponse), { status: 200 });
     }
 
     const outfitData = docRef.data();
     if (outfitData === undefined) {
-      return new Response(JSON.stringify(emptyOutfit), { status: 200 });
+      return new Response(JSON.stringify(emptyResponse), { status: 200 });
     }
 
     return new Response(JSON.stringify(outfitData), { status: 200 });

@@ -39,7 +39,7 @@ if (!dataRequest.ok) {
   console.log(dataRequest.status);
 }
 const data = await dataRequest.json();
-const outfit: clothesItem[] = data?.outfit;
+const outfit: clothesItem[] = data.outfit;
 ---
 
 <Layout title="OOTD">
@@ -71,10 +71,5 @@ const outfit: clothesItem[] = data?.outfit;
           <img src={item.photoLink} alt={item.type} />
         </div>
       ))
-  }
-  {
-    !outfit.length && (
-      <h1>Looks like you haven't selected an outfit for today</h1>
-    )
   }
 </Layout>
