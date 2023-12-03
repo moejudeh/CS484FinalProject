@@ -72,4 +72,9 @@ const outfit: clothesItem[] = data.outfit;
         </div>
       ))
   }
+  {
+    outfit.length === 0 && (
+      <p>Looks like you haven't selected an outfit for today</p>
+    )
+  }
 </Layout>
