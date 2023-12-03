@@ -47,11 +47,9 @@ const dataRequest = await fetch(
 if (!dataRequest.ok) {
   console.log("you made an oopies");
   console.log(dataRequest.status);
-  return;
 }
-
 const data = await dataRequest.json();
-const outfit = data.outfit;
+const outfit = data?.outfit;
 ---
 
 <Layout title="OOTD">
