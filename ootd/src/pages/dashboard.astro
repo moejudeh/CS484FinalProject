@@ -23,9 +23,9 @@ const email = user.email?.toString();
 
 // creating a form of todays date
 const date = new Date();
-const year = date.getFullYear();
-const month = date.getMonth() + 1;
-const day = date.getDate();
+const year = date.getFullYear().toString();
+const month = (date.getMonth() + 1).toString();
+const day = date.getDate().toString();
 
 // gets the users clothes items
 const baseUrl = new URL(Astro.request.url).origin;
@@ -63,4 +63,13 @@ const outfit = data?.outfit;
   </form>
 
   <h1>TODAYS OUTFIT</h1>
+  {
+    outfit &&
+      outfit.map((item: clothesItem) => (
+        <div>
+          <h2>{item.type}</h2>
+          <img src={item.photoLink} alt={item.type} />
+        </div>
+      ))
+  }
 </Layout>
