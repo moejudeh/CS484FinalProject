@@ -2,7 +2,6 @@ import type { clothesItem } from "../../../closet/src/utils/types";
 import type { APIRoute } from "astro";
 import { app } from "../../../firebase/server";
 import { getFirestore } from "firebase-admin/firestore";
-import { getStorage } from "firebase-admin/storage";
 
 export const DELETE: APIRoute = async ({ request }) => {
   try {

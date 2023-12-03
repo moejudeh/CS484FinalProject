@@ -30,12 +30,12 @@ export const GET: APIRoute = async ({ request }) => {
       .get();
 
     if (!docRef.exists) {
-      return new Response("No Outfit", { status: 500 });
+      return new Response("No Outfit", { status: 200 });
     }
 
     const outfitData = docRef.data();
     if (outfitData === undefined) {
-      return new Response("No Outfit", { status: 500 });
+      return new Response("No Outfit", { status: 200 });
     }
 
     return new Response(JSON.stringify(outfitData), { status: 200 });
