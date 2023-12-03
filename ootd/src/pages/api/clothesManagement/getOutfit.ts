@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { app } from "../../../firebase/server";
 import { getFirestore } from "firebase-admin/firestore";
+import type { clothesItem } from "../../../closet/src/utils/types";
 
 export const GET: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
@@ -18,6 +19,8 @@ export const GET: APIRoute = async ({ request }) => {
   }
 
   try {
+    const emptyOutfit: clothesItem[] = [];
+
     const db = getFirestore(app);
     const docRef = await db
       .collection("users")
@@ -29,12 +32,12 @@ export const GET: APIRoute = async ({ request }) => {
       .get();
 
     if (!docRef.exists) {
-      return new Response("No Outfit", { status: 200 });
+      return new Response(JSON.stringify(emptyOutfit), { status: 200 });
     }
 
     const outfitData = docRef.data();
     if (outfitData === undefined) {
-      return new Response("No Outfit", { status: 200 });
+      return new Response(JSON.stringify(emptyOutfit), { status: 200 });
     }
 
     return new Response(JSON.stringify(outfitData), { status: 200 });
