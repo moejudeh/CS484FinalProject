@@ -32,7 +32,7 @@ const todaysDate = {
 // gets the users clothes items
 const baseUrl = new URL(Astro.request.url).origin;
 const dataRequest = await fetch(
-  baseUrl + `/api/clothesManagement/getOutfit?email=${email}`,
+  `${baseUrl}/api/clothesManagement/getOutfit?email=${email}`,
   {
     method: "GET",
     headers: {
@@ -45,6 +45,7 @@ const dataRequest = await fetch(
 if (!dataRequest.ok) {
   console.log("you made an oopies");
   console.log(dataRequest.status);
+  return;
 }
 
 const data = await dataRequest.json();
@@ -74,11 +75,12 @@ const outfit = data.outfit;
   <h1>TODAYS OUTFIT</h1>
 
   {
-    outfit.map((item: clothesItem) => (
-      <div>
-        <h2>{item.type}</h2>
-        <img src={item.photoLink} alt={item.type} />
-      </div>
-    ))
+    outfit &&
+      outfit.map((item: clothesItem) => (
+        <div>
+          <h2>{item.type}</h2>
+          <img src={item.photoLink} alt={item.type} />
+        </div>
+      ))
   }
 </Layout>
