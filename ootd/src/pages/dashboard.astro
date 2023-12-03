@@ -37,7 +37,9 @@ const dataRequest = await fetch(
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "date-Value": `${todaysDate.year}-${todaysDate.month}-${todaysDate.day}`,
+      "date-Value-Year": `${todaysDate.year}`,
+      "date-Value-Month": `${todaysDate.month}`,
+      "date-Value-Day": `${todaysDate.day}`,
     },
   }
 );

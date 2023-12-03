@@ -3,13 +3,13 @@ import { app } from "../../../firebase/server";
 import { getFirestore } from "firebase-admin/firestore";
 
 export const GET: APIRoute = async ({ request }) => {
-  const dateValue = request.headers.get("date-value");
+  const year = request.headers.get("date-value-year");
+  const month = request.headers.get("date-value-month");
+  const day = request.headers.get("date-value-day");
 
-  if (!dateValue) {
-    return new Response("Missing Date Value", { status: 500 });
+  if (year === undefined || month === undefined || day === undefined) {
+    return new Response("Invalid Date Value", { status: 500 });
   }
-
-  const [year, month, day] = dateValue?.split("-");
 
   const url = new URL(request.url);
   const email = url.searchParams.get("email");
